@@ -36,3 +36,6 @@ clone repo, fill out env file `npm i`, then run `node app.js` in the terminal
 #### Tests
 
 to run tests, after `npm i`, run `npm test`
+
+### PR
+[PR 1 - LAB 6](https://github.com/ShadowDraco/basic-auth/pull/1)
