@@ -1,13 +1,8 @@
 "use strict";
 
-const base64 = require("base-64");
-
 const supertest = require("supertest");
-
-// require error handlers
-const notFound = require("../src/middleware/404");
-const errorHandler = require("../src/middleware/500");
-
+const base64 = require("base-64"); // use for sending requests to server
+const authorize = require("../src/auth/middleware/basicAuth");
 // require the database to test it
 const { sequelize } = require("../src/auth/models/.");
 // require app so we can test it
@@ -51,6 +46,48 @@ describe("Server", () => {
     expect(response.status).toEqual(200);
   });
 
+  test("auth middleware works alone", async () => {
+    // success case
+    let req = {
+      headers: {
+        authorization: `Basic ${base64.encode(`Johnny:Bravo`)}`,
+      },
+    };
+    const res = {};
+    const next = jest.fn();
+
+    await authorize(req, res, next);
+    expect(next).toHaveBeenCalledWith();
+
+    // invalid password case
+    req = {
+      headers: {
+        authorization: `Basic ${base64.encode(`Johnny:Bravado`)}`,
+      },
+    };
+
+    await authorize(req, res, next);
+    expect(next).toHaveBeenCalledWith("Invalid User");
+
+    // invalid user case
+    req = {
+      headers: {
+        authorization: `Basic ${base64.encode(`Joe:Bravo`)}`,
+      },
+    };
+
+    await authorize(req, res, next);
+    expect(next).toHaveBeenCalledWith("Invalid Login");
+
+    // invalid header case
+    req = {
+      headers: {},
+    };
+
+    await authorize(req, res, next);
+    expect(next).toHaveBeenCalledWith("Invalid signin format");
+  });
+
   test("handles not found", async () => {
     const response = await request.get("/birds");
     expect(response.body.message).toEqual("That route was not found!");
@@ -61,7 +98,6 @@ describe("Server", () => {
       blah: "blah",
       wah: "wah",
     });
-    console.log(response.body);
     expect(response.status).toEqual(500);
     expect(response.body.message).toEqual("That's a server error :/");
   });

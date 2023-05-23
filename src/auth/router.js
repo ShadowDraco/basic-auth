@@ -2,15 +2,12 @@
 
 const express = require("express");
 const router = express.Router();
-
 // include auth stuff
 const bcrypt = require("bcrypt");
 // include auth function
 const authorize = require("./middleware/basicAuth");
-
 // include user model
 const { userModel } = require("./models");
-console.log(userModel);
 
 router.get("/", (req, res) => {
   res.status(200).send("Auth Route!");

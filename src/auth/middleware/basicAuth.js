@@ -36,7 +36,7 @@ const authorize = async (req, res, next) => {
   try {
     const user = await userModel.findOne({ where: { username: username } });
     const valid = await bcrypt.compare(password, user.password);
-
+    
     if (valid) {
       req.user = user;
       next();
