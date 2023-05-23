@@ -5,7 +5,7 @@ const router = express.Router();
 // include auth stuff
 const bcrypt = require("bcrypt");
 // include auth function
-const authorize = require("./middleware/basicAuth");
+const basicAuth = require("./middleware/basicAuth");
 // include user model
 const { userModel } = require("./models");
 
@@ -32,7 +32,7 @@ router.post("/signup", async (req, res, next) => {
 // Signin Route -- login with username and password
 // test with httpie
 // http post :3000/signin -a john:foo
-router.post("/signin", authorize, async (req, res) => {
+router.post("/signin", basicAuth, async (req, res) => {
   req.user ? res.status(200).json(req.user) : next("Login failed");
 });
 

@@ -21,8 +21,10 @@ app.get("/", (req, res) => {
 });
 
 // import custom route
+const userRoute = require("../routes/user");
 const authRoute = require("./auth/router");
 // use custom routes
+app.use("/users", userRoute);
 app.use("/auth", authRoute);
 //app.use(authRoute); // also works to remove extra route
 
