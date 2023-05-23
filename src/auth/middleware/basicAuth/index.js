@@ -2,9 +2,9 @@
 const base64 = require("base-64");
 const bcrypt = require("bcrypt");
 // include user model to interact with database
-const { userModel } = require("../models/.");
+const { userModel } = require("../../models");
 
-const authorize = async (req, res, next) => {
+const basicAuth = async (req, res, next) => {
   /*
     req.headers.authorization is : "Basic am9objpmb28="
     To get username and password from this, take the following steps:
@@ -48,4 +48,4 @@ const authorize = async (req, res, next) => {
   }
 };
 
-module.exports = authorize;
+module.exports = basicAuth;

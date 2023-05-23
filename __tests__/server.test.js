@@ -1,12 +1,7 @@
 "use strict";
 
-const base64 = require("base-64");
-
 const supertest = require("supertest");
-
-// require error handlers
-const notFound = require("../src/middleware/404");
-const errorHandler = require("../src/middleware/500");
+const base64 = require("base-64"); // use for sending requests to server
 
 // require the database to test it
 const { sequelize } = require("../src/auth/models/.");
@@ -61,7 +56,6 @@ describe("Server", () => {
       blah: "blah",
       wah: "wah",
     });
-    console.log(response.body);
     expect(response.status).toEqual(500);
     expect(response.body.message).toEqual("That's a server error :/");
   });
