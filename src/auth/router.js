@@ -22,10 +22,9 @@ router.get("/", (req, res) => {
 // http post :3000/signup username=john password=foo
 router.post("/signup", async (req, res, next) => {
   try {
-    console.log(req.body);
     req.body.password = await bcrypt.hash(req.body.password, 10);
     const record = await userModel.create(req.body);
-    console.log(req.body);
+
     res.status(201).json(record);
   } catch (e) {
     console.log(e);

@@ -4,6 +4,10 @@ const base64 = require("base-64");
 
 const supertest = require("supertest");
 
+// require error handlers
+const notFound = require("../src/middleware/404");
+const errorHandler = require("../src/middleware/500");
+
 // require the database to test it
 const { sequelize } = require("../src/auth/models/.");
 // require app so we can test it
@@ -45,5 +49,20 @@ describe("Server", () => {
       .set({ Authorization: `Basic ${base64.encode(`Johnny:Bravo`)}` });
 
     expect(response.status).toEqual(200);
+  });
+
+  test("handles not found", async () => {
+    const response = await request.get("/birds");
+    expect(response.body.message).toEqual("That route was not found!");
+  });
+
+  test("handles general errors", async () => {
+    const response = await request.post("/auth/signin").send({
+      blah: "blah",
+      wah: "wah",
+    });
+    console.log(response.body);
+    expect(response.status).toEqual(500);
+    expect(response.body.message).toEqual("That's a server error :/");
   });
 });

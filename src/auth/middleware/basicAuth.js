@@ -15,6 +15,11 @@ const authorize = async (req, res, next) => {
       - Pull username and password from that array
   */
 
+  if (!req.headers.authorization) {
+    next("Invalid signin format");
+    return;
+  }
+
   let basicHeaderParts = req.headers.authorization.split(" "); // ['Basic', 'am9objpmb28=']
   let encodedString = basicHeaderParts.pop(); // am9objpmb28=
   let decodedString = base64.decode(encodedString); // "username:password"
