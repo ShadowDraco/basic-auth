@@ -1,4 +1,4 @@
-# LAB - Class 03
+# LAB - Class 06
 
 ## Project: Basic auth
 
@@ -9,6 +9,8 @@
 #### Phase 1
 
 Deploy an Express server that implements [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication), with signup and sign-in capabilities, using a Postgres database for storage.
+
+![LAB 6 UML](assets/Lab6.png)
 
 ### Links and Resources
 
